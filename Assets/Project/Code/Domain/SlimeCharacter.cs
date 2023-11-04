@@ -35,10 +35,10 @@ namespace Project.Code.Domain
             inputReceiver.OnMovementAction += OnMovementActionStart; 
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             float speed = _isRunning ? speedRunning : speedWalking;
-            Vector3 deltaMovement = _movementDirection * (speed * Time.deltaTime);
+            Vector3 deltaMovement = _movementDirection * (speed * Time.fixedDeltaTime);
             _transform.position += deltaMovement;
         }
 
