@@ -522,6 +522,7 @@ MonoBehaviour:
   speedWalking: 3
   speedRunning: 6
   jumpHeight: 2
+  jumpForce: 200
 --- !u!4 &1364393352
 Transform:
   m_ObjectHideFlags: 0

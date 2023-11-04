@@ -5,6 +5,7 @@ namespace Project.Code.Domain
 {
     [SelectionBase]
     [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(CapsuleCollider2D))]
     public class SlimeCharacter : MonoBehaviour
     {
         [Header("--> References")]
@@ -13,21 +14,24 @@ namespace Project.Code.Domain
         [Header("--> Values")] 
         [SerializeField] private float speedWalking = 3.0f;
         [SerializeField] private float speedRunning = 6.0f;
+        
+        [Tooltip("Se usará esto en vez del jumpforce, pero por ahora bien")]
         [SerializeField] private float jumpHeight = 2.0f;
+        [SerializeField] private float jumpForce = 300.0f;
 
         private Vector2 _movementDirection; // valor normalizado
         private bool _isRunning;
         private Transform _transform;
+        private Rigidbody2D _rigidbody;
 
         private void Awake()
         {
             _transform = GetComponent<Transform>();
+            _rigidbody = GetComponent<Rigidbody2D>();
         }
 
         private void Start()
         {
-            
-            
             // Subscribirse a los eventos de input
             inputReceiver.OnJumpAction += OnJumpAction; 
             inputReceiver.OnRunActionStart += OnRunActionStart; 
@@ -53,7 +57,7 @@ namespace Project.Code.Domain
 
         private void OnJumpAction()
         {
-            Debug.Log("I jumped lol");
+            _rigidbody.AddForce(Vector2.up * jumpForce);
         }
         
         private void OnRunActionStart() => _isRunning = true;
