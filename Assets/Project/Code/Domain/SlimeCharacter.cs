@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Project.Code.Utils;
 
 namespace Project.Code.Domain
 {
@@ -10,6 +11,9 @@ namespace Project.Code.Domain
     {
         [Header("--> References")]
         [SerializeField] private SlimeCharacterInputReceiver inputReceiver;
+        [Header("Health")]
+        [SerializeField] private HealthSystem healthParameters;
+
         [Header("--> Values")] 
         [SerializeField] private float speedWalking = 3.0f;
         [SerializeField] private float speedRunning = 6.0f;
@@ -18,6 +22,13 @@ namespace Project.Code.Domain
         [Tooltip("Se usará esto en vez del jumpforce, pero por ahora bien")]
         [SerializeField] private float jumpHeight = 2.0f;
         [SerializeField] private float jumpForce = 300.0f;
+
+
+        [Header("Size Parameters")]
+        [SerializeField] private SlimeSizeVariable smallParameters;
+        [SerializeField] private SlimeSizeVariable mediumParameters;
+        [SerializeField] private SlimeSizeVariable bigParameters;
+        private SlimeSizeVariable actualParameters;
 
         private Vector2 _movementDirection; // valor normalizado
         private bool _isRunning;
@@ -36,7 +47,8 @@ namespace Project.Code.Domain
             inputReceiver.OnJumpAction += OnJumpAction; 
             inputReceiver.OnRunActionStart += OnRunActionStart; 
             inputReceiver.OnRunActionEnd += OnRunActionEnd; 
-            inputReceiver.OnMovementAction += OnMovementActionStart; 
+            inputReceiver.OnMovementAction += OnMovementActionStart;
+            changeParameters();
         }
 
         private void FixedUpdate()
@@ -71,9 +83,25 @@ namespace Project.Code.Domain
             return size;
         }
 
-        public void Jump()
+        public void Bounce()
         {
             OnJumpAction();
+        }
+
+        public void changeParameters()
+        {
+            if(size == Size.Small)
+            {
+                actualParameters = smallParameters;
+            }
+            else if (size ==Size.Medium)
+            {
+                actualParameters = mediumParameters;
+            }
+            else
+            {
+                actualParameters = bigParameters;
+            }
         }
     }
 }

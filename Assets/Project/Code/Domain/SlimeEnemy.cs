@@ -93,18 +93,18 @@ namespace Project.Code.Domain
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if(collision.gameObject.CompareTag("Player"))
+            if(collision.gameObject.TryGetComponent<SlimeCharacter>(out SlimeCharacter player))
             {
                 ContactPoint2D contact = collision.contacts[0];
                 if(transform.position.y+ collider.size.y/2*0.9< contact.point.y)
                 {
-                    if(!helmet && size <= collision.gameObject.GetComponent<SlimeCharacter>().GetSize())
+                    if(!helmet && size <= player.GetSize())
                     {
                         Destroy(gameObject);
                     }
                     else
                     {
-                        collision.gameObject.GetComponent<SlimeCharacter>().Jump();
+                        player.Bounce();
                     }
                 }
                 else
