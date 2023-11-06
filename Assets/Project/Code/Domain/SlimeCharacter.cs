@@ -10,11 +10,11 @@ namespace Project.Code.Domain
     {
         [Header("--> References")]
         [SerializeField] private SlimeCharacterInputReceiver inputReceiver;
-
         [Header("--> Values")] 
         [SerializeField] private float speedWalking = 3.0f;
         [SerializeField] private float speedRunning = 6.0f;
-        
+        [SerializeField] private Size size = Size.Small;
+
         [Tooltip("Se usará esto en vez del jumpforce, pero por ahora bien")]
         [SerializeField] private float jumpHeight = 2.0f;
         [SerializeField] private float jumpForce = 300.0f;
@@ -65,5 +65,15 @@ namespace Project.Code.Domain
         private void OnRunActionEnd() =>_isRunning = false;
         
         private void OnMovementActionStart(Vector2 value) => _movementDirection = value;
+
+        public Size GetSize()
+        {
+            return size;
+        }
+
+        public void Jump()
+        {
+            OnJumpAction();
+        }
     }
 }
