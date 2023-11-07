@@ -29,16 +29,19 @@ namespace Project.Code.Domain
         [SerializeField] private SlimeSizeVariable mediumParameters;
         [SerializeField] private SlimeSizeVariable bigParameters;
         private SlimeSizeVariable actualParameters;
+        private Vector3 basicScale;
 
         private Vector2 _movementDirection; // valor normalizado
         private bool _isRunning;
         private Transform _transform;
         private Rigidbody2D _rigidbody;
+        private CapsuleCollider2D _capsule;
 
         private void Awake()
         {
             _transform = GetComponent<Transform>();
             _rigidbody = GetComponent<Rigidbody2D>();
+            _capsule = GetComponent<CapsuleCollider2D>();
         }
 
         private void Start()
@@ -50,6 +53,7 @@ namespace Project.Code.Domain
             inputReceiver.OnMovementAction += OnMovementActionStart;
             healthParameters.initialize();
             size = healthParameters.changeHP(0);
+            basicScale = gameObject.transform.localScale;
             changeParameters();
         }
 
@@ -110,12 +114,15 @@ namespace Project.Code.Domain
             {
                 case Size.Small:
                     actualParameters = smallParameters;
+                    gameObject.transform.localScale = basicScale;
                     break;
                 case Size.Medium:
                     actualParameters = mediumParameters;
+                    gameObject.transform.localScale = basicScale*2;
                     break;
                 case Size.Big:
                     actualParameters = bigParameters;
+                    gameObject.transform.localScale = basicScale*3;
                     break;
             }
         }
