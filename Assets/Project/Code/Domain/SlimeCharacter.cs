@@ -49,6 +49,7 @@ namespace Project.Code.Domain
             inputReceiver.OnRunActionEnd += OnRunActionEnd; 
             inputReceiver.OnMovementAction += OnMovementActionStart;
             changeParameters();
+            healthParameters.initialize();
         }
 
         private void FixedUpdate()
@@ -88,19 +89,33 @@ namespace Project.Code.Domain
             OnJumpAction();
         }
 
+        public void ChangeHP(int valueChange)
+        {
+            Size newSize = healthParameters.changeHP(valueChange);
+            if(newSize!=size)
+            {
+                size = newSize;
+                changeParameters();
+            }
+            if(healthParameters.GetHeathPoints() <=0)
+            {
+                Destroy(gameObject);
+            }
+        }
+
         public void changeParameters()
         {
-            if(size == Size.Small)
+            switch(size)
             {
-                actualParameters = smallParameters;
-            }
-            else if (size ==Size.Medium)
-            {
-                actualParameters = mediumParameters;
-            }
-            else
-            {
-                actualParameters = bigParameters;
+                case Size.Small:
+                    actualParameters = smallParameters;
+                    break;
+                case Size.Medium:
+                    actualParameters = mediumParameters;
+                    break;
+                case Size.Big:
+                    actualParameters = bigParameters;
+                    break;
             }
         }
     }

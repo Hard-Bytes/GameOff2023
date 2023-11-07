@@ -11,7 +11,7 @@ namespace Project.Code.Domain
 
         [Header("Values")]
         [SerializeField] private float speed = 3.0f;
-        [SerializeField] private float damage = 3.0f;
+        [SerializeField] private int damage = 3;
         [SerializeField] private float slimeDrop = 3.0f;
         [SerializeField] private Size size = Size.Small;
         [Header("Points movement")]
@@ -109,7 +109,7 @@ namespace Project.Code.Domain
                 }
                 else
                 {
-                    Destroy(collision.gameObject);
+                    player.ChangeHP(-damage);
                 }
             }
         }

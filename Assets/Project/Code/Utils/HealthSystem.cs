@@ -9,9 +9,15 @@ namespace Project.Code.Utils
     {
         [Header("HP Parameters")]
         [SerializeField] int maxHP;
-        private int healthPoints;
+        public int healthPoints;
         [SerializeField] int ThresHoldSmallMedium;
         [SerializeField] int ThresHoldMediumBig;
+
+        public void initialize()
+        {
+            // Subscribirse a los eventos de input
+            healthPoints = maxHP;
+        }
 
         public Size changeHP(int change)
         {
@@ -31,6 +37,11 @@ namespace Project.Code.Utils
                 return Size.Medium;
             }
             return Size.Small;
+        }
+
+        public int GetHeathPoints()
+        {
+            return healthPoints;
         }
     }
 }

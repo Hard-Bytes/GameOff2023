@@ -854,9 +854,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputReceiver: {fileID: 1364393350}
   healthParameters:
-    maxHP: 0
-    ThresHoldSmallMedium: 0
-    ThresHoldMediumBig: 0
+    maxHP: 100
+    ThresHoldSmallMedium: 30
+    ThresHoldMediumBig: 60
   speedWalking: 3
   speedRunning: 6
   size: 0
