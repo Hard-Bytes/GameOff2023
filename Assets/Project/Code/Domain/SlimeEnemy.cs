@@ -12,7 +12,7 @@ namespace Project.Code.Domain
         [Header("Values")]
         [SerializeField] private float speed = 3.0f;
         [SerializeField] private int damage = 3;
-        [SerializeField] private float slimeDrop = 3.0f;
+        [SerializeField] private int slimeDrop = 3;
         [SerializeField] private Size size = Size.Small;
         [Header("Points movement")]
         [SerializeField] private Vector3 Objective1 = new Vector3(0, 0, 0);
@@ -100,6 +100,7 @@ namespace Project.Code.Domain
                 {
                     if(!helmet && size <= player.GetSize())
                     {
+                        player.ChangeHP(slimeDrop);
                         Destroy(gameObject);
                     }
                     else

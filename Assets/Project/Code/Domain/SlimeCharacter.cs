@@ -48,8 +48,9 @@ namespace Project.Code.Domain
             inputReceiver.OnRunActionStart += OnRunActionStart; 
             inputReceiver.OnRunActionEnd += OnRunActionEnd; 
             inputReceiver.OnMovementAction += OnMovementActionStart;
-            changeParameters();
             healthParameters.initialize();
+            size = healthParameters.changeHP(0);
+            changeParameters();
         }
 
         private void FixedUpdate()

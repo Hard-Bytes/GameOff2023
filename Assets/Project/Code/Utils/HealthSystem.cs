@@ -8,6 +8,7 @@ namespace Project.Code.Utils
     public struct HealthSystem
     {
         [Header("HP Parameters")]
+        [SerializeField] int startHP;
         [SerializeField] int maxHP;
         public int healthPoints;
         [SerializeField] int ThresHoldSmallMedium;
@@ -16,7 +17,7 @@ namespace Project.Code.Utils
         public void initialize()
         {
             // Subscribirse a los eventos de input
-            healthPoints = maxHP;
+            healthPoints = startHP;
         }
 
         public Size changeHP(int change)
