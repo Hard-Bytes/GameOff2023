@@ -11,18 +11,13 @@ namespace Project.Code.Domain
     {
         [Header("--> References")]
         [SerializeField] private SlimeCharacterInputReceiver inputReceiver;
+        [SerializeField] private SlimeCharacterMovementBehaviour movementBehaviour;
+        
         [Header("Health")]
         [SerializeField] private HealthSystem healthParameters;
-
+        
         [Header("--> Values")] 
-        [SerializeField] private float speedWalking = 3.0f;
-        [SerializeField] private float speedRunning = 6.0f;
         [SerializeField] private Size size = Size.Small;
-
-        [Tooltip("Se usará esto en vez del jumpforce, pero por ahora bien")]
-        [SerializeField] private float jumpHeight = 2.0f;
-        [SerializeField] private float jumpForce = 300.0f;
-
 
         [Header("Size Parameters")]
         [SerializeField] private SlimeSizeVariable smallParameters;
@@ -32,14 +27,6 @@ namespace Project.Code.Domain
 
         private Vector2 _movementDirection; // valor normalizado
         private bool _isRunning;
-        private Transform _transform;
-        private Rigidbody2D _rigidbody;
-
-        private void Awake()
-        {
-            _transform = GetComponent<Transform>();
-            _rigidbody = GetComponent<Rigidbody2D>();
-        }
 
         private void Start()
         {
@@ -54,9 +41,7 @@ namespace Project.Code.Domain
 
         private void FixedUpdate()
         {
-            float speed = _isRunning ? speedRunning : speedWalking;
-            Vector3 deltaMovement = _movementDirection * (speed * Time.fixedDeltaTime);
-            _transform.position += deltaMovement;
+            movementBehaviour.UpdateMovement(_movementDirection);
         }
 
         private void OnDestroy()
@@ -68,14 +53,11 @@ namespace Project.Code.Domain
             inputReceiver.OnMovementAction -= OnMovementActionStart; 
         }
 
-        private void OnJumpAction()
-        {
-            _rigidbody.AddForce(Vector2.up * jumpForce);
-        }
+        private void OnJumpAction() => movementBehaviour.Jump();
         
-        private void OnRunActionStart() => _isRunning = true;
+        private void OnRunActionStart() => movementBehaviour.SetRunning(true);
 
-        private void OnRunActionEnd() =>_isRunning = false;
+        private void OnRunActionEnd() => movementBehaviour.SetRunning(false);
         
         private void OnMovementActionStart(Vector2 value) => _movementDirection = value;
 
@@ -92,12 +74,14 @@ namespace Project.Code.Domain
         public void ChangeHP(int valueChange)
         {
             Size newSize = healthParameters.changeHP(valueChange);
-            if(newSize!=size)
+            
+            if(newSize != size)
             {
                 size = newSize;
                 changeParameters();
             }
-            if(healthParameters.GetHeathPoints() <=0)
+            
+            if(healthParameters.GetHeathPoints() <= 0)
             {
                 Destroy(gameObject);
             }
@@ -105,6 +89,8 @@ namespace Project.Code.Domain
 
         public void changeParameters()
         {
+            // Para dedado, ¿por qué no hacer un diccionario de tipo de size a healthParamerters?
+            
             switch(size)
             {
                 case Size.Small:
