@@ -7,8 +7,12 @@ namespace Project.Code.Core.Installers.Singles
     {
         public override void InstallDependency(ServiceLocator serviceLocator)
         {
+            var locator = ServiceLocator.Instance;
+
+            if (locator.HasService<EventDispatcher>()) return;
+            
             var eventDispatcher = new EventDispatcherImpl();
-            serviceLocator.RegisterService<EventDispatcher>(eventDispatcher);
+            locator.RegisterService<EventDispatcher>(eventDispatcher);
         }
     }
 }

@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Project/Level/Scenes/Examples/Events.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Project/Level/Scenes/Development/AudioManager_Test.unity
-    guid: 7a17e86d8191fd7408323f3201d9711b
+    path: Assets/Project/Level/Scenes/Development/LV_001.unity
+    guid: 3802dee80a3d5294c8cff9d5a0f55cba
+  - enabled: 1
+    path: Assets/Project/Level/Scenes/Development/LV_002.unity
+    guid: b395639d61d48e34abf515d4ecaa4f12
   m_configObjects: {}

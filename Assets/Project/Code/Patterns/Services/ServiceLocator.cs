@@ -35,6 +35,6 @@ namespace Project.Code.Patterns.Services
 
         public void DeregisterService<T>() => _registeredServices.Remove(typeof(T));
 
-        private bool Exists<T>() => _registeredServices.TryGetValue(typeof(T), out _);
+        public bool HasService<T>() => _registeredServices.TryGetValue(typeof(T), out _);
     }
 }
