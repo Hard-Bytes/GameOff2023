@@ -94,7 +94,7 @@ namespace Project.Code.Domain
             OnJumpAction();
         }
 
-        public void ChangeHP(int valueChange)
+        public void ChangeHP(int valueChange, DamageSource source = DamageSource.None)
         {
             Size newSize = healthParameters.changeHP(valueChange);
             if(newSize!=size)
@@ -102,10 +102,15 @@ namespace Project.Code.Domain
                 size = newSize;
                 changeParameters();
             }
-            if(healthParameters.GetHeathPoints() <=0)
+            if(healthParameters.GetHealthPoints() <=0)
             {
                 Destroy(gameObject);
             }
+        }
+
+        public void Kill(DamageSource source)
+        {
+            ChangeHP(-healthParameters.GetMaxHP(), source);
         }
 
         public void changeParameters()

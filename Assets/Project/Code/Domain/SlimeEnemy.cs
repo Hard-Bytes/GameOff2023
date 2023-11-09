@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Project.Code.Utils;
 
 namespace Project.Code.Domain
 {
@@ -100,7 +101,7 @@ namespace Project.Code.Domain
                 {
                     if(!helmet && size <= player.GetSize())
                     {
-                        player.ChangeHP(slimeDrop);
+                        player.ChangeHP(slimeDrop, DamageSource.Enemy);
                         Destroy(gameObject);
                     }
                     else
@@ -110,7 +111,7 @@ namespace Project.Code.Domain
                 }
                 else
                 {
-                    player.ChangeHP(-damage);
+                    player.ChangeHP(-damage, DamageSource.Enemy);
                 }
             }
         }

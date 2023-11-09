@@ -40,7 +40,12 @@ namespace Project.Code.Utils
             return Size.Small;
         }
 
-        public int GetHeathPoints()
+        public int GetMaxHP()
+        {
+            return maxHP;
+        }
+
+        public int GetHealthPoints()
         {
             return healthPoints;
         }
