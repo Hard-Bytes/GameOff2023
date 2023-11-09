@@ -79,20 +79,31 @@ namespace Project.Code.Domain.Services
         public AudioMixerGroup sfxAudioMixerGroup;
         public AudioMixerGroup masterAudioMixerGroup;
 
-        [Button("clear sound objects")]
+        [Button("Test sound")]
+        public void TestSound()
+        {
+            PlayOneShot(gameObject, test,SoundType.Sfx,true,0f);
+        }
+        
+        [Button("Clear sound objects")]
         public void ClearSoundsPool()
         {
-            foreach (var sound in _soundsPool.Values)
+            
+            foreach (Transform child in transform)
+            // foreach (var sound in _soundsPool.Values)
             {   
-                Destroy(sound.gameObject);
+                Destroy(child.gameObject);
+                // Destroy(sound.gameObject);
             }
-            _soundsPool.Clear();            
+
+            _soundsPool.Clear();
+            
         }
 
-        [Button("Thats a lotta words...")]
-        public void testSound()
+        [Button("Populate sound objects",enabledMode:EButtonEnableMode.Playmode)]
+        public void TestPopulateSoundsPool()
         {
-            PlayOneShot(gameObject, test,SoundType.Sfx,true,5f);
+            PopulateSoundsPool();
         }
         
         /// <summary>
