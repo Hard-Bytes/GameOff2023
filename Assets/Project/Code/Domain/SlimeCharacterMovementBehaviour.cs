@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Project.Code.Domain
@@ -9,6 +10,9 @@ namespace Project.Code.Domain
         public void SetRunning(bool running) => IsRunning = running;
 
         public abstract void UpdateMovement(Vector2 direction);
+        
+        [Obsolete]
+        [Tooltip("Usar mejor la clase de SlimeCharacterJumpBehaviour dentro de SlimeCharacter")]
         public abstract void Jump();
     }
 }

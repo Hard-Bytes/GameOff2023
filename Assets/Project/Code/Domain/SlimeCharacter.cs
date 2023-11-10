@@ -12,6 +12,7 @@ namespace Project.Code.Domain
         [Header("--> References")]
         [SerializeField] private SlimeCharacterInputReceiver inputReceiver;
         [SerializeField] private SlimeCharacterMovementBehaviour movementBehaviour;
+        [SerializeField] private SlimeCharacterJumpBehaviour jumpBehaviour;
         
         [Header("Health")]
         [SerializeField] private HealthSystem healthParameters;
@@ -31,10 +32,15 @@ namespace Project.Code.Domain
         private void Start()
         {
             // Subscribirse a los eventos de input
-            inputReceiver.OnJumpAction += OnJumpAction; 
+            inputReceiver.OnJumpActionStart += OnJumpActionStart; 
+            inputReceiver.OnJumpActionEnd += OnJumpActionEnd; 
+            
             inputReceiver.OnRunActionStart += OnRunActionStart; 
             inputReceiver.OnRunActionEnd += OnRunActionEnd; 
+            
             inputReceiver.OnMovementAction += OnMovementActionStart;
+            
+            // Setup de otras cosas
             changeParameters();
             healthParameters.initialize();
         }
@@ -47,13 +53,17 @@ namespace Project.Code.Domain
         private void OnDestroy()
         {
             // Desubscribirse a los eventos de input
-            inputReceiver.OnJumpAction -= OnJumpAction; 
+            inputReceiver.OnJumpActionStart -= OnJumpActionStart; 
+            inputReceiver.OnJumpActionEnd += OnJumpActionEnd; 
+
             inputReceiver.OnRunActionStart -= OnRunActionStart; 
             inputReceiver.OnRunActionEnd -= OnRunActionEnd; 
+            
             inputReceiver.OnMovementAction -= OnMovementActionStart; 
         }
 
-        private void OnJumpAction() => movementBehaviour.Jump();
+        private void OnJumpActionStart() => jumpBehaviour.DoJump();
+        private void OnJumpActionEnd() => jumpBehaviour.CancelJump();
         
         private void OnRunActionStart() => movementBehaviour.SetRunning(true);
 
@@ -68,7 +78,7 @@ namespace Project.Code.Domain
 
         public void Bounce()
         {
-            OnJumpAction();
+            OnJumpActionStart();
         }
 
         public void ChangeHP(int valueChange)
