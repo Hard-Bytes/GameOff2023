@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UniRx;
 
 namespace Project.Code.Utils
 {
     [System.Serializable]
-    public struct HealthSystem
+    public class HealthSystem
     {
         [Header("HP Parameters")]
         [SerializeField] int startHP;
@@ -14,30 +15,58 @@ namespace Project.Code.Utils
         [SerializeField] int ThresHoldSmallMedium;
         [SerializeField] int ThresHoldMediumBig;
 
-        public void initialize()
+        public readonly ReactiveProperty<SlimeSize> Size;
+
+        public HealthSystem()
+        {
+            Size = new ReactiveProperty<SlimeSize>(SlimeSize.Small);
+        }
+
+        public void Initialize()
         {
             // Subscribirse a los eventos de input
             healthPoints = startHP;
+            UpdateSize();
         }
 
-        public Size changeHP(int change)
+        public void ChangeHP(int change)
         {
             healthPoints += change;
             if (healthPoints > maxHP) healthPoints = maxHP;
-            return CheckSize();
+            UpdateSize();
         }
 
-        public Size CheckSize()
+        public void SetHPFromSize(SlimeSize newSize)
+        {
+            switch(newSize)
+            {
+                case(SlimeSize.Big): healthPoints = maxHP; break;
+                case(SlimeSize.Medium): healthPoints = ThresHoldMediumBig; break;
+                case(SlimeSize.Small): healthPoints = ThresHoldSmallMedium; break;
+            }
+            UpdateSize();
+        }
+
+        private void UpdateSize()
+        {
+            var newSize = GetSize();
+            if(Size.Value != newSize)
+            {
+                Size.Value = newSize;
+            }
+        }
+
+        public SlimeSize GetSize()
         {
             if(healthPoints > ThresHoldMediumBig)
             {
-                return Size.Big;
+                return SlimeSize.Big;
             }
             if(healthPoints > ThresHoldSmallMedium)
             {
-                return Size.Medium;
+                return SlimeSize.Medium;
             }
-            return Size.Small;
+            return SlimeSize.Small;
         }
 
         public int GetMaxHP()
