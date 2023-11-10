@@ -1,6 +1,11 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using Project.Code.Domain.Events;
+using Project.Code.Patterns.Events;
+using Project.Code.Patterns.Services;
 using Project.Code.Utils;
+using UniRx;
 
 namespace Project.Code.Domain
 {
@@ -17,7 +22,6 @@ namespace Project.Code.Domain
         [Header("--> Values")] 
         [SerializeField] private float speedWalking = 3.0f;
         [SerializeField] private float speedRunning = 6.0f;
-        [SerializeField] private Size size = Size.Small;
 
         [Tooltip("Se usará esto en vez del jumpforce, pero por ahora bien")]
         [SerializeField] private float jumpHeight = 2.0f;
@@ -37,6 +41,11 @@ namespace Project.Code.Domain
         private Rigidbody2D _rigidbody;
         private CapsuleCollider2D _capsule;
 
+        private Vector2 _respawnPosition;
+        private SlimeSize _respawnSize;
+
+        private readonly List<IDisposable> _disposables = new List<IDisposable>();
+
         private void Awake()
         {
             _transform = GetComponent<Transform>();
@@ -46,15 +55,31 @@ namespace Project.Code.Domain
 
         private void Start()
         {
-            // Subscribirse a los eventos de input
+            basicScale = gameObject.transform.localScale;
+
+            // Subscribirse a los eventos
+            // Input
             inputReceiver.OnJumpAction += OnJumpAction; 
             inputReceiver.OnRunActionStart += OnRunActionStart; 
             inputReceiver.OnRunActionEnd += OnRunActionEnd; 
             inputReceiver.OnMovementAction += OnMovementActionStart;
-            healthParameters.initialize();
-            size = healthParameters.changeHP(0);
-            basicScale = gameObject.transform.localScale;
-            changeParameters();
+
+            // Size
+            healthParameters.Size.Subscribe(OnSizeChanged).AddTo(_disposables);
+
+            // Events
+            var dispatcher = ServiceLocator.Instance.GetService<EventDispatcher>();
+            dispatcher.Subscribe<CheckpointActivatedEvent>(OnCheckpointActivated);
+            dispatcher.Subscribe<CharacterDiedEvent>(OnCharacterDeath);
+
+            healthParameters.Initialize();
+
+            var startCheckpointEvent = new CheckpointActivatedEvent {
+                RespawnPosition = transform.position,
+                RespawnSize = healthParameters.GetSize(),
+                IsStartOfLevel = true
+            };
+            dispatcher.Trigger<CheckpointActivatedEvent>(startCheckpointEvent);
         }
 
         private void FixedUpdate()
@@ -71,6 +96,15 @@ namespace Project.Code.Domain
             inputReceiver.OnRunActionStart -= OnRunActionStart; 
             inputReceiver.OnRunActionEnd -= OnRunActionEnd; 
             inputReceiver.OnMovementAction -= OnMovementActionStart; 
+
+            foreach (var disposable in _disposables)
+            {
+                disposable.Dispose();
+            }
+
+            var dispatcher = ServiceLocator.Instance.GetService<EventDispatcher>();
+            dispatcher.Unsubscribe<CheckpointActivatedEvent>(OnCheckpointActivated);
+            dispatcher.Unsubscribe<CharacterDiedEvent>(OnCharacterDeath);
         }
 
         private void OnJumpAction()
@@ -84,9 +118,44 @@ namespace Project.Code.Domain
         
         private void OnMovementActionStart(Vector2 value) => _movementDirection = value;
 
-        public Size GetSize()
+        private void OnCheckpointActivated(GameEvent evt)
         {
-            return size;
+            var eventData = (CheckpointActivatedEvent)evt;
+            _respawnPosition = eventData.RespawnPosition;
+            _respawnSize = eventData.RespawnSize;
+        }
+
+        private void OnCharacterDeath(GameEvent evt)
+        {
+            var eventData = (CharacterDiedEvent)evt;
+
+            transform.position = this._respawnPosition;
+            healthParameters.SetHPFromSize(_respawnSize);
+            // TODO Reset player's speed/movement?
+        }
+
+        private void OnSizeChanged(SlimeSize newSize)
+        {
+            switch(newSize)
+            {
+                case SlimeSize.Small:
+                    actualParameters = smallParameters;
+                    gameObject.transform.localScale = basicScale;
+                    break;
+                case SlimeSize.Medium:
+                    actualParameters = mediumParameters;
+                    gameObject.transform.localScale = basicScale*2;
+                    break;
+                case SlimeSize.Big:
+                    actualParameters = bigParameters;
+                    gameObject.transform.localScale = basicScale*3;
+                    break;
+            }
+        }
+
+        public SlimeSize GetSize()
+        {
+            return healthParameters.GetSize();
         }
 
         public void Bounce()
@@ -96,40 +165,18 @@ namespace Project.Code.Domain
 
         public void ChangeHP(int valueChange, DamageSource source = DamageSource.None)
         {
-            Size newSize = healthParameters.changeHP(valueChange);
-            if(newSize!=size)
-            {
-                size = newSize;
-                changeParameters();
-            }
+            healthParameters.ChangeHP(valueChange);
+
             if(healthParameters.GetHealthPoints() <=0)
             {
-                Destroy(gameObject);
+                var dispatcher = ServiceLocator.Instance.GetService<EventDispatcher>();
+                dispatcher.Trigger<CharacterDiedEvent>(new CharacterDiedEvent {Source = source});
             }
         }
 
         public void Kill(DamageSource source)
         {
             ChangeHP(-healthParameters.GetMaxHP(), source);
-        }
-
-        public void changeParameters()
-        {
-            switch(size)
-            {
-                case Size.Small:
-                    actualParameters = smallParameters;
-                    gameObject.transform.localScale = basicScale;
-                    break;
-                case Size.Medium:
-                    actualParameters = mediumParameters;
-                    gameObject.transform.localScale = basicScale*2;
-                    break;
-                case Size.Big:
-                    actualParameters = bigParameters;
-                    gameObject.transform.localScale = basicScale*3;
-                    break;
-            }
         }
     }
 }

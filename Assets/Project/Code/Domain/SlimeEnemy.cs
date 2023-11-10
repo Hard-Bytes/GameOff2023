@@ -14,7 +14,7 @@ namespace Project.Code.Domain
         [SerializeField] private float speed = 3.0f;
         [SerializeField] private int damage = 3;
         [SerializeField] private int slimeDrop = 3;
-        [SerializeField] private Size size = Size.Small;
+        [SerializeField] private SlimeSize size = SlimeSize.Small;
         [Header("Points movement")]
         [SerializeField] private Vector3 Objective1 = new Vector3(0, 0, 0);
         [SerializeField] private Vector3 Objective2 = new Vector3(0, 0, 0);
