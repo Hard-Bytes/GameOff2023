@@ -49,7 +49,6 @@ namespace Project.Code.Domain
 
         public void OnJump(InputAction.CallbackContext context)
         {
-            
             var phase = context.phase;
 
             if (phase == InputActionPhase.Started)

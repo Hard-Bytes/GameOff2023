@@ -34,7 +34,7 @@ namespace Project.Code.Domain
         private void Update()
         {
             var position = transform.position;
-            
+
             _isGrounded = Physics2D.Raycast(position + colliderOffset, Vector2.down, groundLength, groundLayer) 
                           || Physics2D.Raycast(position - colliderOffset, Vector2.down, groundLength, groundLayer);
         }

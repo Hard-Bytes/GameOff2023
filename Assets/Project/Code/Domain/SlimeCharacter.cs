@@ -54,7 +54,7 @@ namespace Project.Code.Domain
         {
             // Desubscribirse a los eventos de input
             inputReceiver.OnJumpActionStart -= OnJumpActionStart; 
-            inputReceiver.OnJumpActionEnd += OnJumpActionEnd; 
+            inputReceiver.OnJumpActionEnd -= OnJumpActionEnd; 
 
             inputReceiver.OnRunActionStart -= OnRunActionStart; 
             inputReceiver.OnRunActionEnd -= OnRunActionEnd; 
@@ -64,9 +64,7 @@ namespace Project.Code.Domain
 
         private void OnJumpActionStart() => jumpBehaviour.DoJump();
         private void OnJumpActionEnd() => jumpBehaviour.CancelJump();
-        
         private void OnRunActionStart() => movementBehaviour.SetRunning(true);
-
         private void OnRunActionEnd() => movementBehaviour.SetRunning(false);
         
         private void OnMovementActionStart(Vector2 value) => _movementDirection = value;
@@ -78,7 +76,7 @@ namespace Project.Code.Domain
 
         public void Bounce()
         {
-            OnJumpActionStart();
+            // OnJumpActionStart();
         }
 
         public void ChangeHP(int valueChange)

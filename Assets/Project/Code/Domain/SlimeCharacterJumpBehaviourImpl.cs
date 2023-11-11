@@ -141,14 +141,14 @@ namespace Project.Code.Domain
                 _jumpBufferCounter = 0;
                 _coyoteTimeCounter = 0;
 
-                //If we have double jump on, allow us to jump again (but only once)
+                // If we have double jump on, allow us to jump again (but only once)
                 _canJumpAgain = (maxAirJumps == 1 && _canJumpAgain == false);
 
-                //Determine the power of the jump, based on our gravity and stats
+                // Determine the power of the jump, based on our gravity and stats
                 _jumpSpeed = Mathf.Sqrt(-2f * Physics2D.gravity.y * rigidbody2D.gravityScale * jumpHeight);
 
-                //If Kit is moving up or down when she jumps (such as when doing a double jump), change the jumpSpeed;
-                //This will ensure the jump is the exact same strength, no matter your velocity.
+                // If Kit is moving up or down when she jumps (such as when doing a double jump), change the jumpSpeed;
+                // This will ensure the jump is the exact same strength, no matter your velocity.
                 if (_velocity.y > 0f)
                 {
                     _jumpSpeed = Mathf.Max(_jumpSpeed - _velocity.y, 0f);
@@ -158,7 +158,7 @@ namespace Project.Code.Domain
                     _jumpSpeed += Mathf.Abs(rigidbody2D.velocity.y);
                 }
 
-                //Apply the new jumpSpeed to the velocity. It will be sent to the Rigidbody in FixedUpdate;
+                // Apply the new jumpSpeed to the velocity. It will be sent to the Rigidbody in FixedUpdate;
                 _velocity.y += _jumpSpeed;
                 _currentlyJumping = true;
 
@@ -258,8 +258,13 @@ namespace Project.Code.Domain
         
         public override void DoJump()
         {
-            _desiredJump = true;
-            _pressingJump = true;
+            // Esta condición inhabilita el jump buffer, pero es que hay un bug ahora importante de que rebotas
+            // Y puedes saltar hacia abajo
+            if (!_currentlyJumping)
+            {
+                _desiredJump = true;
+                _pressingJump = true;
+            }
         }
 
         public override void CancelJump()
