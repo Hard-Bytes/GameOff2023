@@ -22,9 +22,9 @@ namespace Project.Code.Domain
         [Header("Health")]
         [SerializeField] private HealthSystem healthParameters;
 
-        [Header("--> Values")]
-        [SerializeField] private float speedWalking = 3.0f;
-        [SerializeField] private float speedRunning = 6.0f;
+        //[Header("--> Values")]
+        //[SerializeField] private float speedWalking = 3.0f;
+        //[SerializeField] private float speedRunning = 6.0f;
         // [SerializeField] private Size size = Size.Small;
 
         [Header("Size Parameters")]
@@ -36,22 +36,22 @@ namespace Project.Code.Domain
 
         private Vector2 _movementDirection; // valor normalizado
         private bool _isRunning;
-        private Transform _transform;
-        private Rigidbody2D _rigidbody;
-        private CapsuleCollider2D _capsule;
+        //private Transform _transform;
+        //private Rigidbody2D _rigidbody;
+        //private CapsuleCollider2D _capsule;
 
         private Vector2 _respawnPosition;
         private SlimeSize _respawnSize;
 
         private readonly List<IDisposable> _disposables = new List<IDisposable>();
-
+/*
         private void Awake()
         {
             _transform = GetComponent<Transform>();
             _rigidbody = GetComponent<Rigidbody2D>();
             _capsule = GetComponent<CapsuleCollider2D>();
         }
-
+*/
         private void Start()
         {
             basicScale = gameObject.transform.localScale;
