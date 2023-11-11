@@ -8,7 +8,8 @@ namespace Project.Code.Domain
     {
         private SlimeCharacterInput _slimeCharacterInput;
 
-        public event Action OnJumpAction;
+        public event Action OnJumpActionStart;
+        public event Action OnJumpActionEnd;
         public event Action OnRunActionStart;
         public event Action OnRunActionEnd;
         public event Action<Vector2> OnMovementAction;
@@ -48,9 +49,15 @@ namespace Project.Code.Domain
 
         public void OnJump(InputAction.CallbackContext context)
         {
-            if (context.phase == InputActionPhase.Started)
+            var phase = context.phase;
+
+            if (phase == InputActionPhase.Started)
             {
-                OnJumpAction?.Invoke();
+                OnJumpActionStart?.Invoke();
+            } 
+            else if (phase == InputActionPhase.Canceled)
+            {
+                OnJumpActionEnd?.Invoke();
             }
         }
 

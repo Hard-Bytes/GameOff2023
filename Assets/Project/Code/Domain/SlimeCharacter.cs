@@ -16,17 +16,16 @@ namespace Project.Code.Domain
     {
         [Header("--> References")]
         [SerializeField] private SlimeCharacterInputReceiver inputReceiver;
+        [SerializeField] private SlimeCharacterMovementBehaviour movementBehaviour;
+        [SerializeField] private SlimeCharacterJumpBehaviour jumpBehaviour;
+
         [Header("Health")]
         [SerializeField] private HealthSystem healthParameters;
 
-        [Header("--> Values")] 
+        [Header("--> Values")]
         [SerializeField] private float speedWalking = 3.0f;
         [SerializeField] private float speedRunning = 6.0f;
-
-        [Tooltip("Se usará esto en vez del jumpforce, pero por ahora bien")]
-        [SerializeField] private float jumpHeight = 2.0f;
-        [SerializeField] private float jumpForce = 300.0f;
-
+        // [SerializeField] private Size size = Size.Small;
 
         [Header("Size Parameters")]
         [SerializeField] private SlimeSizeVariable smallParameters;
@@ -59,9 +58,12 @@ namespace Project.Code.Domain
 
             // Subscribirse a los eventos
             // Input
-            inputReceiver.OnJumpAction += OnJumpAction; 
-            inputReceiver.OnRunActionStart += OnRunActionStart; 
-            inputReceiver.OnRunActionEnd += OnRunActionEnd; 
+            inputReceiver.OnJumpActionStart += OnJumpActionStart;
+            inputReceiver.OnJumpActionEnd += OnJumpActionEnd;
+            // inputReceiver.OnJumpAction += OnJumpAction;
+            inputReceiver.OnRunActionStart += OnRunActionStart;
+            inputReceiver.OnRunActionEnd += OnRunActionEnd;
+
             inputReceiver.OnMovementAction += OnMovementActionStart;
 
             // Size
@@ -84,18 +86,19 @@ namespace Project.Code.Domain
 
         private void FixedUpdate()
         {
-            float speed = _isRunning ? speedRunning : speedWalking;
-            Vector3 deltaMovement = _movementDirection * (speed * Time.fixedDeltaTime);
-            _transform.position += deltaMovement;
+            movementBehaviour.UpdateMovement(_movementDirection);
         }
 
         private void OnDestroy()
         {
             // Desubscribirse a los eventos de input
-            inputReceiver.OnJumpAction -= OnJumpAction; 
-            inputReceiver.OnRunActionStart -= OnRunActionStart; 
-            inputReceiver.OnRunActionEnd -= OnRunActionEnd; 
-            inputReceiver.OnMovementAction -= OnMovementActionStart; 
+            inputReceiver.OnJumpActionStart -= OnJumpActionStart;
+            inputReceiver.OnJumpActionEnd -= OnJumpActionEnd;
+
+            inputReceiver.OnRunActionStart -= OnRunActionStart;
+            inputReceiver.OnRunActionEnd -= OnRunActionEnd;
+
+            inputReceiver.OnMovementAction -= OnMovementActionStart;
 
             foreach (var disposable in _disposables)
             {
@@ -107,15 +110,11 @@ namespace Project.Code.Domain
             dispatcher.Unsubscribe<CharacterDiedEvent>(OnCharacterDeath);
         }
 
-        private void OnJumpAction()
-        {
-            _rigidbody.AddForce(Vector2.up * jumpForce);
-        }
-        
-        private void OnRunActionStart() => _isRunning = true;
+        private void OnJumpActionStart() => jumpBehaviour.DoJump();
+        private void OnJumpActionEnd() => jumpBehaviour.CancelJump();
+        private void OnRunActionStart() => movementBehaviour.SetRunning(true);
+        private void OnRunActionEnd() => movementBehaviour.SetRunning(false);
 
-        private void OnRunActionEnd() =>_isRunning = false;
-        
         private void OnMovementActionStart(Vector2 value) => _movementDirection = value;
 
         private void OnCheckpointActivated(GameEvent evt)
@@ -160,7 +159,7 @@ namespace Project.Code.Domain
 
         public void Bounce()
         {
-            OnJumpAction();
+            // OnJumpActionStart();
         }
 
         public void ChangeHP(int valueChange, DamageSource source = DamageSource.None)
