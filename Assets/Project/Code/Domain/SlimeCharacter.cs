@@ -11,7 +11,6 @@ namespace Project.Code.Domain
 {
     [SelectionBase]
     [RequireComponent(typeof(Rigidbody2D))]
-    [RequireComponent(typeof(CapsuleCollider2D))]
     public class SlimeCharacter : MonoBehaviour
     {
         [Header("--> References")]
