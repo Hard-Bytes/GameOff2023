@@ -3,18 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Project.Code.UI
+namespace Project.Code.UI.HPBar
 {
     public class HPBarInstaller : MonoBehaviour
     {
         [SerializeField] private HPBarView hpBarView;
-        [SerializeField] private HPBarPresenter hPBarPresenter;
         private List<IDisposable> _disposables;
 
         private void Awake()
         {
-            hPBarPresenter.Configure(hpBarView);
-
+            HPBarViewModel viewModel = new HPBarViewModel();
+            hpBarView.Configure(viewModel);
+            var hPBarPresenter = new HPBarPresenter(viewModel);
         }
     }
 }

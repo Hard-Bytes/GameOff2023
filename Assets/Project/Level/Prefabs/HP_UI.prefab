@@ -85,7 +85,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4744676211259681057}
   - component: {fileID: 3671088289323486243}
-  - component: {fileID: 7070390092005731681}
   - component: {fileID: 8204361081331076780}
   m_Layer: 5
   m_Name: HP_UI
@@ -132,18 +131,6 @@ MonoBehaviour:
   healthBar: {fileID: 8432355031099074468}
   divideBar: {fileID: 8444554127078528244}
   scaleSpeed: 0.05
---- !u!114 &7070390092005731681
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7578775162077532372}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 445d437ee2be9a54c94a1ad5b9b27fda, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8204361081331076780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,7 +144,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hpBarView: {fileID: 3671088289323486243}
-  hPBarPresenter: {fileID: 7070390092005731681}
 --- !u!1 &8376196279980452374
 GameObject:
   m_ObjectHideFlags: 0

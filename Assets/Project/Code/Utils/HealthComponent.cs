@@ -87,9 +87,8 @@ namespace Project.Code.Utils
 
         private void CommunicateHPChange()
         {
-
             var dispatcher = ServiceLocator.Instance.GetService<EventDispatcher>();
-            var signal = new CharacterHPChangeEvent { NuevaHP = healthPoints, NuevaDivision = 10 , VidaMaxima = maxHP};
+            var signal = new CharacterHPChangeEvent { NewHP = healthPoints, NewDivision = 10 , MaxHP = maxHP};
             dispatcher.Trigger<CharacterHPChangeEvent>(signal);
         }
     }
