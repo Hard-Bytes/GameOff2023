@@ -96,7 +96,7 @@ namespace Project.Code.Domain
             if(collision.gameObject.TryGetComponent<SlimeCharacter>(out SlimeCharacter player))
             {
                 ContactPoint2D contact = collision.contacts[0];
-                if(transform.position.y+ collider.size.y/2*0.9< contact.point.y)
+                if(transform.position.y+ collider.size.y/2*0.8< contact.point.y)
                 {
                     if(!helmet && size <= player.GetSize())
                     {
