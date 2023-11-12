@@ -19,7 +19,7 @@ namespace Project.Code.Domain
         [SerializeField] private SlimeCharacterJumpBehaviour jumpBehaviour;
 
         [Header("Health")]
-        [SerializeField] private HealthSystem healthParameters;
+        [SerializeField] private HealthComponent healthParameters;
 
         //[Header("--> Values")]
         //[SerializeField] private float speedWalking = 3.0f;

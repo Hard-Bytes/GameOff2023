@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
+using Project.Code.Domain.Events;
+using Project.Code.Patterns.Events;
+using Project.Code.Patterns.Services;
 
 namespace Project.Code.Utils
 {
     [System.Serializable]
-    public class HealthSystem
+    public class HealthComponent
     {
         [Header("HP Parameters")]
         [SerializeField] int startHP;
@@ -17,7 +20,7 @@ namespace Project.Code.Utils
 
         public readonly ReactiveProperty<SlimeSize> Size;
 
-        public HealthSystem()
+        public HealthComponent()
         {
             Size = new ReactiveProperty<SlimeSize>(SlimeSize.Small);
         }
@@ -27,6 +30,7 @@ namespace Project.Code.Utils
             // Subscribirse a los eventos de input
             healthPoints = startHP;
             UpdateSize();
+            CommunicateHPChange();
         }
 
         public void ChangeHP(int change)
@@ -34,6 +38,7 @@ namespace Project.Code.Utils
             healthPoints += change;
             if (healthPoints > maxHP) healthPoints = maxHP;
             UpdateSize();
+            CommunicateHPChange();
         }
 
         public void SetHPFromSize(SlimeSize newSize)
@@ -45,6 +50,7 @@ namespace Project.Code.Utils
                 case(SlimeSize.Small): healthPoints = ThresHoldSmallMedium; break;
             }
             UpdateSize();
+            CommunicateHPChange();
         }
 
         private void UpdateSize()
@@ -77,6 +83,14 @@ namespace Project.Code.Utils
         public int GetHealthPoints()
         {
             return healthPoints;
+        }
+
+        private void CommunicateHPChange()
+        {
+
+            var dispatcher = ServiceLocator.Instance.GetService<EventDispatcher>();
+            var signal = new CharacterHPChangeEvent { NuevaHP = healthPoints, NuevaDivision = 10 , VidaMaxima = maxHP};
+            dispatcher.Trigger<CharacterHPChangeEvent>(signal);
         }
     }
 }
