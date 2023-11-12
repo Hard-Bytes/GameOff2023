@@ -4,8 +4,8 @@ namespace Project.Code.Domain.Events
 {
     public struct CharacterHPChangeEvent : GameEvent
     {
-        public int NuevaHP;
-        public int NuevaDivision;
-        public int VidaMaxima;
+        public int NewHP;
+        public int NewDivision;
+        public int MaxHP;
     }
 }
