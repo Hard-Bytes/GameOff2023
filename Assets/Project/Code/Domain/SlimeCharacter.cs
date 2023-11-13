@@ -45,7 +45,8 @@ namespace Project.Code.Domain
         [Header("Knockback Parameters")]
         [SerializeField, Range(0f, 90f)] private float angleAttack;
         [SerializeField, Range(0f, 100f)] private float knockback = 1.0f;
-        [SerializeField, Range(0f, 10f)] private float invencibleTime;
+        [SerializeField, Range(0f, 10f)] private float invincibleTime;
+        private float _invincible = 0;
 
         private readonly List<IDisposable> _disposables = new List<IDisposable>();
 /*
@@ -91,6 +92,7 @@ namespace Project.Code.Domain
         private void FixedUpdate()
         {
             movementBehaviour.UpdateMovement(_movementDirection);
+            if(_invincible>0)_invincible -= Time.fixedDeltaTime;
         }
 
         private void OnDestroy()
@@ -166,29 +168,36 @@ namespace Project.Code.Domain
             // OnJumpActionStart();
         }
 
-        public void ChangeHP(int valueChange, DamageSource source = DamageSource.None)
+        public void ChangeHP(int valueChange, DamageSource source = DamageSource.None, bool kill = false)
         {
-            healthParameters.ChangeHP(valueChange);
-
-            if(healthParameters.GetHealthPoints() <=0)
+            if (_invincible <= 0 || kill)
             {
-                var dispatcher = ServiceLocator.Instance.GetService<EventDispatcher>();
-                dispatcher.Trigger<CharacterDiedEvent>(new CharacterDiedEvent {Source = source});
+                healthParameters.ChangeHP(valueChange);
+
+                if (healthParameters.GetHealthPoints() <= 0)
+                {
+                    var dispatcher = ServiceLocator.Instance.GetService<EventDispatcher>();
+                    dispatcher.Trigger<CharacterDiedEvent>(new CharacterDiedEvent { Source = source });
+                }
             }
         }
 
         public void Kill(DamageSource source)
         {
-            ChangeHP(-healthParameters.GetMaxHP(), source);
+            ChangeHP(-healthParameters.GetMaxHP(), source, true);
         }
         public void Knockback(Vector2 damageInput)
         {
-            int diretion = transform.position.x > damageInput.x ? 1 : -1;
-            Vector2 movement = new Vector2(Mathf.Cos(angleAttack * Mathf.Deg2Rad ) * diretion, Mathf.Sin(angleAttack * Mathf.Deg2Rad))*knockback;
+            if(_invincible <= 0)
+            {
+                _invincible = invincibleTime;
+                int diretion = transform.position.x > damageInput.x ? 1 : -1;
+                Vector2 movement = new Vector2(Mathf.Cos(angleAttack * Mathf.Deg2Rad) * diretion, Mathf.Sin(angleAttack * Mathf.Deg2Rad)) * knockback;
 
-            Debug.Log(movement);
-            //movementBehaviour.UpdateMovement(movement);
-            GetComponent<Rigidbody2D>().velocity= movement;
+                Debug.Log(movement);
+                //movementBehaviour.UpdateMovement(movement);
+                GetComponent<Rigidbody2D>().velocity = movement;
+            }
         }
     }
 }

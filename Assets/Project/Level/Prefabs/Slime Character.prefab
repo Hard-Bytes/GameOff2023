@@ -240,9 +240,9 @@ MonoBehaviour:
     bounceForce: 0
     gravity: 0
     smashAttackVelocity: 0
-  angleAttack: 37
-  knockback: 4.7
-  invencibleTime: 0
+  angleAttack: 51.5
+  knockback: 9.9
+  invincibleTime: 1
 --- !u!114 &4655101404502694668
 MonoBehaviour:
   m_ObjectHideFlags: 0
