@@ -42,6 +42,11 @@ namespace Project.Code.Domain
         private Vector2 _respawnPosition;
         private SlimeSize _respawnSize;
 
+        [Header("Knockback Parameters")]
+        [SerializeField, Range(0f, 90f)] private float angleAttack;
+        [SerializeField, Range(0f, 100f)] private float knockback = 1.0f;
+        [SerializeField, Range(0f, 10f)] private float invencibleTime;
+
         private readonly List<IDisposable> _disposables = new List<IDisposable>();
 /*
         private void Awake()
@@ -175,6 +180,15 @@ namespace Project.Code.Domain
         public void Kill(DamageSource source)
         {
             ChangeHP(-healthParameters.GetMaxHP(), source);
+        }
+        public void Knockback(Vector2 damageInput)
+        {
+            int diretion = transform.position.x > damageInput.x ? 1 : -1;
+            Vector2 movement = new Vector2(Mathf.Cos(angleAttack * Mathf.Deg2Rad ) * diretion, Mathf.Sin(angleAttack * Mathf.Deg2Rad))*knockback;
+
+            Debug.Log(movement);
+            //movementBehaviour.UpdateMovement(movement);
+            GetComponent<Rigidbody2D>().velocity= movement;
         }
     }
 }

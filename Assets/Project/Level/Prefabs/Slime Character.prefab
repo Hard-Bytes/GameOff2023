@@ -211,11 +211,11 @@ MonoBehaviour:
   movementBehaviour: {fileID: 8298087996204972629}
   jumpBehaviour: {fileID: 7229158069204423538}
   healthParameters:
-    startHP: 0
-    maxHP: 0
+    startHP: 30
+    maxHP: 100
     healthPoints: 0
-    ThresHoldSmallMedium: 0
-    ThresHoldMediumBig: 0
+    ThresHoldSmallMedium: 40
+    ThresHoldMediumBig: 70
   smallParameters:
     acceleration: 0
     maxVelocity: 0
@@ -240,6 +240,9 @@ MonoBehaviour:
     bounceForce: 0
     gravity: 0
     smashAttackVelocity: 0
+  angleAttack: 37
+  knockback: 4.7
+  invencibleTime: 0
 --- !u!114 &4655101404502694668
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -112,6 +112,7 @@ namespace Project.Code.Domain
                 else
                 {
                     player.ChangeHP(-damage, DamageSource.Enemy);
+                    player.Knockback(transform.position);
                 }
             }
         }
