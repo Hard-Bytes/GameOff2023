@@ -192,12 +192,33 @@ namespace Project.Code.Domain
         {
             if(_invincible <= 0 || knockbackWhileInvincible)
             {
-                int diretion = transform.position.x > damageInput.x ? 1 : -1;
-                Vector2 movement = new Vector2(Mathf.Cos(angleAttack * Mathf.Deg2Rad) * diretion, Mathf.Sin(angleAttack * Mathf.Deg2Rad)) * knockback;
-
+                int direction = transform.position.x > damageInput.x ? 1 : -1;
+                Vector2 movement = new Vector2(Mathf.Cos(angleAttack * Mathf.Deg2Rad) * direction, Mathf.Sin(angleAttack * Mathf.Deg2Rad)) * knockback;
                 Debug.Log(movement);
                 //movementBehaviour.UpdateMovement(movement);
                 GetComponent<Rigidbody2D>().velocity = movement;
+            }
+        }
+
+        /// <summary>
+        /// Knock back for stepping into traps, applies velocity to the rigidbody and potentially deals damage
+        /// </summary>
+        /// <param name="pushKnockback">calculated velocity</param>
+        /// <param name="damage">amount of damage</param>
+        /// <param name="invulnerabilityTimeOverride">override invulnerability time, not additive</param>
+        /// <param name="ignoreInvulnerability">should ignore invulnerability</param>
+        public void TrapKnockBack(Vector2 pushKnockback,int damage, DamageSource type, 
+            float invulnerabilityTimeOverride = 0f, bool ignoreInvulnerability = false)
+        {
+            Debug.Log(pushKnockback);
+            if (_invincible <= 0 || knockbackWhileInvincible || ignoreInvulnerability)
+            {
+                _invincible = invulnerabilityTimeOverride < 0 ? invincibleTime : invulnerabilityTimeOverride;
+                if(damage > 0)
+                    ChangeHP(damage,type);
+                    // healthParameters.SetHPFromSize(damage > 1 ? SlimeSize.Medium : SlimeSize.Small);
+                GetComponent<Rigidbody2D>().velocity = pushKnockback;
+                
             }
         }
     }
