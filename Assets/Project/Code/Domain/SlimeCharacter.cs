@@ -46,6 +46,7 @@ namespace Project.Code.Domain
         [SerializeField, Range(0f, 90f)] private float angleAttack;
         [SerializeField, Range(0f, 100f)] private float knockback = 1.0f;
         [SerializeField, Range(0f, 10f)] private float invincibleTime;
+        [SerializeField] private bool knockbackWhileInvincible;
         private float _invincible = 0;
 
         private readonly List<IDisposable> _disposables = new List<IDisposable>();
@@ -172,6 +173,7 @@ namespace Project.Code.Domain
         {
             if (_invincible <= 0 || kill)
             {
+                _invincible = invincibleTime;
                 healthParameters.ChangeHP(valueChange);
 
                 if (healthParameters.GetHealthPoints() <= 0)
@@ -188,9 +190,8 @@ namespace Project.Code.Domain
         }
         public void Knockback(Vector2 damageInput)
         {
-            if(_invincible <= 0)
+            if(_invincible <= 0 || knockbackWhileInvincible)
             {
-                _invincible = invincibleTime;
                 int diretion = transform.position.x > damageInput.x ? 1 : -1;
                 Vector2 movement = new Vector2(Mathf.Cos(angleAttack * Mathf.Deg2Rad) * diretion, Mathf.Sin(angleAttack * Mathf.Deg2Rad)) * knockback;
 
