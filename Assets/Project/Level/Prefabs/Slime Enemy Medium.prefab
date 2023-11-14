@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.22072984, g: 0.7264151, b: 0, a: 1}
+  m_Color: {r: 0.13136154, g: 0.4339623, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 3892895610838365374}
   - component: {fileID: 1213328222565487604}
   m_Layer: 0
-  m_Name: Slime Enemy
+  m_Name: Slime Enemy Medium
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -113,8 +113,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.27, y: -2.6, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1141155129449396214}
   m_Father: {fileID: 0}
@@ -131,10 +131,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de74cc88377c00f4ba6f96eba8da5d85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
-  damage: 3
-  slimeDrop: 3
+  speed: 6
+  damage: 6
+  slimeDrop: 10
   size: 1
+  thresholdJump: 0.9
   Objective1: {x: -2, y: 0, z: 0}
   Objective2: {x: 2, y: 0, z: 0}
   helmet: 0
@@ -151,7 +152,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
-  m_Mass: 1
+  m_Mass: 4
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
