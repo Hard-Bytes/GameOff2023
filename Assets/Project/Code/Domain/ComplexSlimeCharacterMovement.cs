@@ -68,7 +68,7 @@ namespace Project.Code.Domain
             if (_directionX != 0)
             {
                 // Flipear el sprite vaya
-                transform.localScale = new Vector3(_directionX > 0 ? 1 : -1, 1, 1);
+                // transform.localScale = new Vector3(_directionX > 0 ? 1 : -1, 1, 1);
                 _requestingMovement = true;
             }
             else
