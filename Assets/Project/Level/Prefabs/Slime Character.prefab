@@ -139,7 +139,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 1a9ede85f2fa6454097d42124fce89df, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -275,13 +275,13 @@ MonoBehaviour:
   transform: {fileID: 488727135056202114}
   rigidbody: {fileID: 6188406060632594785}
   groundChecker: {fileID: 6534606209076060858}
-  maxSpeed: 8
-  maxAcceleration: 60
-  maxDecceleration: 35
-  maxTurnSpeed: 60
-  maxAirAcceleration: 15
-  maxAirDeceleration: 50
-  maxAirTurnSpeed: 35
+  maxSpeed: 9
+  maxAcceleration: 64.8
+  maxDecceleration: 75
+  maxTurnSpeed: 65.2
+  maxAirAcceleration: 60
+  maxAirDeceleration: 60
+  maxAirTurnSpeed: 60
   friction: 0
   useAcceleration: 1
 --- !u!114 &6534606209076060858
@@ -316,13 +316,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigidbody2D: {fileID: 6188406060632594785}
   groundChecker: {fileID: 6534606209076060858}
-  jumpHeight: 4
-  timeToJumpApex: 0.6
-  upwardMovementMultiplier: 1
-  downwardMovementMultiplier: 2
+  jumpHeight: 5.5
+  timeToJumpApex: 0.5
+  upwardMovementMultiplier: 1.75
+  downwardMovementMultiplier: 1.65
   maxAirJumps: 0
   variableJumpHeight: 1
-  jumpCutOff: 2
-  speedLimit: 8
+  jumpCutOff: 3.4
+  speedLimit: 12
   coyoteTime: 0.15
   jumpBuffer: 0.15

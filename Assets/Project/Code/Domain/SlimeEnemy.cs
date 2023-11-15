@@ -15,6 +15,7 @@ namespace Project.Code.Domain
         [SerializeField] private int damage = 3;
         [SerializeField] private int slimeDrop = 3;
         [SerializeField] private SlimeSize size = SlimeSize.Small;
+        [SerializeField, Range(0f, 1f)] private float thresholdJump = 0.9f;
         [Header("Points movement")]
         [SerializeField] private Vector3 Objective1 = new Vector3(0, 0, 0);
         [SerializeField] private Vector3 Objective2 = new Vector3(0, 0, 0);
@@ -96,8 +97,8 @@ namespace Project.Code.Domain
         {
             if(collision.gameObject.TryGetComponent<SlimeCharacter>(out SlimeCharacter player))
             {
-                ContactPoint2D contact = collision.contacts[0];
-                if(transform.position.y+ collider.size.y/2*0.9<= contact.point.y && transform.position.y + collider.size.y / 2 < collision.transform.position.y)
+                BoxCollider2D playerCollider = player.gameObject.GetComponent<BoxCollider2D>();
+                if (transform.position.y+ collider.size.y/2* thresholdJump <= player.transform.position.y + playerCollider.size.y/2*0.9)
                 {
                     if (!helmet && size <= player.GetSize())
                     {
