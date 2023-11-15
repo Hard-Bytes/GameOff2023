@@ -44,6 +44,20 @@ namespace Project.Code.Domain
 
             Vector3 destination = _transform.position + new Vector3(p_newOffset.x, p_newOffset.y, 0);
 
+            RaycastHit2D hit = Physics2D.Raycast(
+                transform.position,
+                p_newOffset,
+                p_newOffset.magnitude,
+                //TODO If someone's got a better alternative than layer names, I'm all ears
+                LayerMask.GetMask("Ground")
+            );
+            if (hit.collider != null)
+            {
+                float halfSize = _trigger.bounds.extents.x;
+                if(p_newOffset.x < 0) halfSize *= -1;
+                destination = hit.point - new Vector2(halfSize, 0);
+            }
+
             _transform
                 .DOMove(destination, timeToDestinationSeconds)
                 .OnStart(delegate
