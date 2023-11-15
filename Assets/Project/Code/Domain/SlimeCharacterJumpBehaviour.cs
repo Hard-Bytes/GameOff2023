@@ -6,5 +6,6 @@ namespace Project.Code.Domain
     {
         public abstract void DoJump();
         public abstract void CancelJump();
+        public abstract bool OnGround();
     }
 }

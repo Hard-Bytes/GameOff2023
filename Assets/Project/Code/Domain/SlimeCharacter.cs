@@ -150,7 +150,7 @@ namespace Project.Code.Domain
 
         private void OnDivide()
         {
-            if(_divideCooldownCounter <= 0.0f)
+            if(jumpBehaviour.OnGround() && _divideCooldownCounter <= 0.0f)
             {
                 _divideCooldownCounter = divideCooldownSec;
 
@@ -172,7 +172,6 @@ namespace Project.Code.Domain
 
                     bool launchForward = divideScrapLaunchForward;
                     if(_lookingLeft) launchForward = !launchForward;
-                    scrapData.SetOriginatedByCharacter(true);
                     scrapData.SetScrapValue(divideCost);
                     scrapData.SetOffsetDestination(new Vector2(
                         launchForward? divideScrapLaunchOffset : -divideScrapLaunchOffset

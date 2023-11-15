@@ -12,7 +12,7 @@ namespace Project.Code.Domain
 
         [Header("Values")]
         [SerializeField] private int slimeDrop = 10;
-        [SerializeField] private bool orignatedByCharacter = false;
+        [SerializeField] private bool requiresFallingFromAbove = false;
 
         [Header("Movement")]
         [SerializeField, Range(0.1f, 3f)] private float timeToDestinationSeconds = 1.0f;
@@ -26,11 +26,6 @@ namespace Project.Code.Domain
         {
             _transform = GetComponent<Transform>();
             _trigger = GetComponent<CircleCollider2D>();
-        }
-
-        public void SetOriginatedByCharacter(bool p_byChar)
-        {
-            orignatedByCharacter = p_byChar;
         }
 
         public void SetScrapValue(int p_value)
@@ -77,7 +72,7 @@ namespace Project.Code.Domain
             if (!collider2d.TryGetComponent(out SlimeCharacter character)) return;
 
             float diffY = collider2d.bounds.min.y - _trigger.bounds.center.y;
-            if(!orignatedByCharacter || diffY > 0)
+            if(!requiresFallingFromAbove || diffY > 0)
             {
                 character.ChangeHP(slimeDrop, DamageSource.SlimeScrap, true);
                 Destroy(gameObject);
