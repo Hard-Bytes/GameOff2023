@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using DG.Tweening;
 
 namespace Project.Code.Domain
 {
@@ -13,6 +14,7 @@ namespace Project.Code.Domain
         public event Action OnRunActionStart;
         public event Action OnRunActionEnd;
         public event Action<Vector2> OnMovementAction;
+        public event Action OnDivideAction;
 
         private void Awake()
         {
@@ -64,6 +66,16 @@ namespace Project.Code.Domain
         public void OnMelee(InputAction.CallbackContext context)
         {
             throw new NotImplementedException();
+        }
+
+        public void OnDivide(InputAction.CallbackContext context)
+        {
+            var phase = context.phase;
+
+            if (phase == InputActionPhase.Started)
+            {
+                OnDivideAction?.Invoke();
+            } 
         }
     }
 }

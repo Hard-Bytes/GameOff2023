@@ -17,6 +17,7 @@ namespace Project.Code.Utils
         public int healthPoints;
         [SerializeField] int ThresHoldSmallMedium;
         [SerializeField] int ThresHoldMediumBig;
+        private int _divideCost; //Duplicated, health component must go :(
 
         public readonly ReactiveProperty<SlimeSize> Size;
 
@@ -25,10 +26,11 @@ namespace Project.Code.Utils
             Size = new ReactiveProperty<SlimeSize>(SlimeSize.Small);
         }
 
-        public void Initialize()
+        public void Initialize(int p_divideCost)
         {
-            // Subscribirse a los eventos de input
             healthPoints = startHP;
+            _divideCost = p_divideCost;
+
             UpdateSize();
             CommunicateHPChange();
         }
@@ -88,7 +90,7 @@ namespace Project.Code.Utils
         private void CommunicateHPChange()
         {
             var dispatcher = ServiceLocator.Instance.GetService<EventDispatcher>();
-            var signal = new CharacterHPChangeEvent { NewHP = healthPoints, NewDivision = 10 , MaxHP = maxHP};
+            var signal = new CharacterHPChangeEvent { NewHP = healthPoints, NewDivision = _divideCost, MaxHP = maxHP};
             dispatcher.Trigger<CharacterHPChangeEvent>(signal);
         }
     }

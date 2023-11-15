@@ -8,5 +8,6 @@ namespace Project.Code.Utils
         PitfallTrap,
         LiquidTrap,
         SpikeTrap,
+        SlimeScrap
     }
 }

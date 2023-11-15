@@ -62,6 +62,15 @@ public partial class @SlimeCharacterInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Divide"",
+                    ""type"": ""Button"",
+                    ""id"": ""522f4f98-29a0-499d-9150-61d6eee3845a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -185,6 +194,17 @@ public partial class @SlimeCharacterInput: IInputActionCollection2, IDisposable
                     ""action"": ""Melee"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b80c2dd9-bdf9-4d69-acc4-b63a23c87dd3"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Divide"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -258,6 +278,7 @@ public partial class @SlimeCharacterInput: IInputActionCollection2, IDisposable
         m_Player_Run = m_Player.FindAction("Run", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Melee = m_Player.FindAction("Melee", throwIfNotFound: true);
+        m_Player_Divide = m_Player.FindAction("Divide", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -323,6 +344,7 @@ public partial class @SlimeCharacterInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Run;
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Melee;
+    private readonly InputAction m_Player_Divide;
     public struct PlayerActions
     {
         private @SlimeCharacterInput m_Wrapper;
@@ -331,6 +353,7 @@ public partial class @SlimeCharacterInput: IInputActionCollection2, IDisposable
         public InputAction @Run => m_Wrapper.m_Player_Run;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Melee => m_Wrapper.m_Player_Melee;
+        public InputAction @Divide => m_Wrapper.m_Player_Divide;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -352,6 +375,9 @@ public partial class @SlimeCharacterInput: IInputActionCollection2, IDisposable
             @Melee.started += instance.OnMelee;
             @Melee.performed += instance.OnMelee;
             @Melee.canceled += instance.OnMelee;
+            @Divide.started += instance.OnDivide;
+            @Divide.performed += instance.OnDivide;
+            @Divide.canceled += instance.OnDivide;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -368,6 +394,9 @@ public partial class @SlimeCharacterInput: IInputActionCollection2, IDisposable
             @Melee.started -= instance.OnMelee;
             @Melee.performed -= instance.OnMelee;
             @Melee.canceled -= instance.OnMelee;
+            @Divide.started -= instance.OnDivide;
+            @Divide.performed -= instance.OnDivide;
+            @Divide.canceled -= instance.OnDivide;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -436,5 +465,6 @@ public partial class @SlimeCharacterInput: IInputActionCollection2, IDisposable
         void OnRun(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnMelee(InputAction.CallbackContext context);
+        void OnDivide(InputAction.CallbackContext context);
     }
 }

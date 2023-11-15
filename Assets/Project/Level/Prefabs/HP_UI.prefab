@@ -130,7 +130,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBar: {fileID: 8432355031099074468}
   divideBar: {fileID: 8444554127078528244}
-  scaleSpeed: 0.05
+  scaleSpeed: 0.2
 --- !u!114 &8204361081331076780
 MonoBehaviour:
   m_ObjectHideFlags: 0

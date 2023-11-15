@@ -271,5 +271,10 @@ namespace Project.Code.Domain
         {
             _pressingJump = false;
         }
+
+        public override bool OnGround()
+        {
+            return _onGround;
+        }
     }
 }
