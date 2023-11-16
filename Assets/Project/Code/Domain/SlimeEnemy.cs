@@ -16,6 +16,7 @@ namespace Project.Code.Domain
         [SerializeField] private int slimeDrop = 3;
         [SerializeField] private SlimeSize size = SlimeSize.Small;
         [SerializeField, Range(0f, 1f)] private float thresholdJump = 0.9f;
+        [SerializeField] private bool staticEnemy;
         [Header("Points movement")]
         [SerializeField] private GameObject Objective1;
         [SerializeField] private GameObject Objective2;
@@ -52,14 +53,17 @@ namespace Project.Code.Domain
 
         private void FixedUpdate()
         {
-            if(stunedTime <= 0)
+            if(!staticEnemy)
             {
-                MoveEntity();
-                ChangeObjective();
-            }
-            else
-            {
-                stunedTime -= Time.fixedDeltaTime;
+                if (stunedTime <= 0)
+                {
+                    MoveEntity();
+                    ChangeObjective();
+                }
+                else
+                {
+                    stunedTime -= Time.fixedDeltaTime;
+                }
             }
         }
 
