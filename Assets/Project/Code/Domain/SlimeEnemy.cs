@@ -17,8 +17,8 @@ namespace Project.Code.Domain
         [SerializeField] private SlimeSize size = SlimeSize.Small;
         [SerializeField, Range(0f, 1f)] private float thresholdJump = 0.9f;
         [Header("Points movement")]
-        [SerializeField] private Vector3 Objective1 = new Vector3(0, 0, 0);
-        [SerializeField] private Vector3 Objective2 = new Vector3(0, 0, 0);
+        [SerializeField] private GameObject Objective1;
+        [SerializeField] private GameObject Objective2;
         [Header("SoldierSlime Parameters")]
         [SerializeField] private bool helmet = false;
         [SerializeField] private float timeOfStun = 1.0f;
@@ -43,9 +43,9 @@ namespace Project.Code.Domain
 
         private void Start()
         {
-            positionObjective1 = transform.position + Objective1;
-            positionObjective2 = transform.position + Objective2;
-            movementDirection = positionObjective1 - transform.position;
+            positionObjective1 = new Vector3 ( Objective1.transform.position.x, 0, 0 );
+            positionObjective2 = new Vector3 ( Objective2.transform.position.x, 0, 0 );
+            movementDirection = positionObjective1 - new Vector3(transform.position.x, 0, 0); 
             movementDirection.Normalize();
             ActualObjective = positionObjective1;
         }
@@ -76,18 +76,18 @@ namespace Project.Code.Domain
 
         private void ChangeObjective()
         {
-            if(Vector3.Distance(transform.position, ActualObjective)<0.1f)
+            if(Vector3.Distance(new Vector3(transform.position.x, 0, 0), ActualObjective)<0.1f)
             {
                 if(ActualObjective == positionObjective2)
                 {
                     ActualObjective = positionObjective1;
-                    movementDirection = positionObjective1 - transform.position;
+                    movementDirection = positionObjective1 - new Vector3(transform.position.x, 0, 0);
                     movementDirection.Normalize();
                 }
                 else if (ActualObjective == positionObjective1)
                 {
                     ActualObjective = positionObjective2;
-                    movementDirection = positionObjective2 - transform.position;
+                    movementDirection = positionObjective2 - new Vector3(transform.position.x, 0, 0);
                     movementDirection.Normalize();
                 }
             }
