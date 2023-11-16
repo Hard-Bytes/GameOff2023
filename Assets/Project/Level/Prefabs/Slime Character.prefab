@@ -217,7 +217,10 @@ MonoBehaviour:
     healthPoints: 0
     ThresHoldSmallMedium: 40
     ThresHoldMediumBig: 70
+  sizeMultiplierMedium: 1.25
+  sizeMultiplierBig: 1.5
   divideCost: 10
+  divideScrapLaunchForward: 0
   divideScrapLaunchOffset: 3
   divideCooldownSec: 0.5
   smallParameters:
