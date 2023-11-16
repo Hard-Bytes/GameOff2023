@@ -21,6 +21,8 @@ namespace Project.Code.Domain
 
         [Header("Health")]
         [SerializeField] private HealthComponent healthParameters;
+        [SerializeField, Range(1f, 4f)] private float sizeMultiplierMedium;
+        [SerializeField, Range(1f, 4f)] private float sizeMultiplierBig;
 
         [Header("Divide ability")]
         [SerializeField, Range(1, 100)] private int divideCost;
@@ -202,11 +204,11 @@ namespace Project.Code.Domain
                     break;
                 case SlimeSize.Medium:
                     actualParameters = mediumParameters;
-                    gameObject.transform.localScale = basicScale*2;
+                    gameObject.transform.localScale = basicScale*sizeMultiplierMedium;
                     break;
                 case SlimeSize.Big:
                     actualParameters = bigParameters;
-                    gameObject.transform.localScale = basicScale*3;
+                    gameObject.transform.localScale = basicScale*sizeMultiplierBig;
                     break;
             }
         }
