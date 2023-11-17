@@ -278,10 +278,10 @@ MonoBehaviour:
   transform: {fileID: 488727135056202114}
   rigidbody: {fileID: 6188406060632594785}
   groundChecker: {fileID: 6534606209076060858}
-  maxSpeed: 7.5
-  maxAcceleration: 35
-  maxDecceleration: 35
-  maxTurnSpeed: 45
+  maxSpeed: 5.3
+  maxAcceleration: 45
+  maxDecceleration: 45
+  maxTurnSpeed: 50
   maxAirAcceleration: 60
   maxAirDeceleration: 60
   maxAirTurnSpeed: 60
@@ -301,7 +301,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transform: {fileID: 488727135056202114}
   groundLength: 0.95
-  colliderOffset: {x: 0, y: 0, z: 0}
+  colliderOffset: {x: 0.5, y: 0, z: 0}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -319,13 +319,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigidbody2D: {fileID: 6188406060632594785}
   groundChecker: {fileID: 6534606209076060858}
-  jumpHeight: 5.2
-  timeToJumpApex: 0.5
-  upwardMovementMultiplier: 1.75
-  downwardMovementMultiplier: 1.65
+  jumpHeight: 3.6
+  timeToJumpApex: 0.45
+  upwardMovementMultiplier: 1
+  downwardMovementMultiplier: 1.7
   maxAirJumps: 0
   variableJumpHeight: 1
-  jumpCutOff: 3.4
+  jumpCutOff: 4
   speedLimit: 12
   coyoteTime: 0.15
   jumpBuffer: 0.15
