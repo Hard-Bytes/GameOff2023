@@ -278,7 +278,7 @@ MonoBehaviour:
   transform: {fileID: 488727135056202114}
   rigidbody: {fileID: 6188406060632594785}
   groundChecker: {fileID: 6534606209076060858}
-  maxSpeed: 5.3
+  maxSpeed: 6.5
   maxAcceleration: 45
   maxDecceleration: 45
   maxTurnSpeed: 50
