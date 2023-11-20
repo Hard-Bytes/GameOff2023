@@ -15,9 +15,8 @@ namespace Project.Code.Domain
             damage = newDmg;
         }
 
-        private void OnCollisionEnter2D(Collision2D collision)
+        private void OnTriggerEnter2D(Collider2D collision)
         {
-            Debug.Log("Colisiona Conmigo Papa");
             if(collision.gameObject.TryGetComponent<SlimeCharacter>(out SlimeCharacter player))
             {
                 BoxCollider2D playerCollider = player.gameObject.GetComponent<BoxCollider2D>();
