@@ -20,6 +20,7 @@ namespace Project.Code.Domain
         [Header("Points movement")]
         [SerializeField] private GameObject Objective1;
         [SerializeField] private GameObject Objective2;
+        [SerializeField] private float stopTimeWhenObjective;
         [Header("SoldierSlime Parameters")]
         [SerializeField] private bool helmet = false;
         [SerializeField] private float timeOfStun = 1.0f;
@@ -82,7 +83,8 @@ namespace Project.Code.Domain
         {
             if(Vector3.Distance(new Vector3(transform.position.x, 0, 0), ActualObjective)<0.1f)
             {
-                if(ActualObjective == positionObjective2)
+                stunedTime = stopTimeWhenObjective;
+                if (ActualObjective == positionObjective2)
                 {
                     ActualObjective = positionObjective1;
                     movementDirection = positionObjective1 - new Vector3(transform.position.x, 0, 0);

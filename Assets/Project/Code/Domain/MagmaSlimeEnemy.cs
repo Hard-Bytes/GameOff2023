@@ -23,6 +23,8 @@ namespace Project.Code.Domain
         [Header("Points movement")]
         [SerializeField] private GameObject Objective1;
         [SerializeField] private GameObject Objective2;
+        [SerializeField] private float stopTimeWhenObjective;
+        private float stunedTime = 0;
 
         private Vector3 positionObjective1 = new Vector3(0, 0, 0);
         private Vector3 positionObjective2 = new Vector3(0, 0, 0);
@@ -56,10 +58,17 @@ namespace Project.Code.Domain
 
         private void FixedUpdate()
         {
-            if(!staticEnemy)
+            if (!staticEnemy)
             {
-                MoveEntity();
-                ChangeObjective();
+                if (stunedTime <= 0)
+                {
+                    MoveEntity();
+                    ChangeObjective();
+                }
+                else
+                {
+                    stunedTime -= Time.fixedDeltaTime;
+                }
             }
         }
 
@@ -73,7 +82,8 @@ namespace Project.Code.Domain
         {
             if(Vector3.Distance(new Vector3(transform.position.x, 0, 0), ActualObjective)<0.1f)
             {
-                if(ActualObjective == positionObjective2)
+                stunedTime = stopTimeWhenObjective;
+                if (ActualObjective == positionObjective2)
                 {
                     ActualObjective = positionObjective1;
                     movementDirection = positionObjective1 - new Vector3(transform.position.x, 0, 0);
