@@ -117,8 +117,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 6, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6857169948634431070}
   m_Father: {fileID: 0}
@@ -135,7 +135,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
-  m_Mass: 1
+  m_Mass: 0.64000005
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -217,9 +217,9 @@ MonoBehaviour:
     healthPoints: 0
     ThresHoldSmallMedium: 40
     ThresHoldMediumBig: 70
-  sizeMultiplierMedium: 1.25
+  sizeMultiplierMedium: 1.3
   sizeMultiplierBig: 1.5
-  divideCost: 10
+  divideCost: 15
   divideScrapLaunchForward: 0
   divideScrapLaunchOffset: 3
   divideCooldownSec: 0.5
@@ -301,7 +301,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transform: {fileID: 488727135056202114}
   groundLength: 0.95
-  colliderOffset: {x: 0.5, y: 0, z: 0}
+  colliderOffset: {x: 0.4, y: 0, z: 0}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64

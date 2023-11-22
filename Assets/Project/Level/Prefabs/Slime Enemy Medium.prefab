@@ -175,7 +175,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.27, y: -2.6, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1141155129449396214}
@@ -200,6 +200,7 @@ MonoBehaviour:
   slimeDrop: 10
   size: 1
   thresholdJump: 0.9
+  staticEnemy: 0
   Objective1: {fileID: 2737557192096608139}
   Objective2: {fileID: 877759290367222760}
   helmet: 0
@@ -216,7 +217,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
-  m_Mass: 4
+  m_Mass: 1.21
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
